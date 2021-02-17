@@ -27,9 +27,8 @@ func sprite_handle_jumping():
 		else: sprite.play("jump_falling")
 		
 func sprite_try_run():
-	if ((Input.is_action_pressed("move_left") or
-		Input.is_action_pressed("move_right"))
-		and not Input.is_action_pressed("jump")):
+	if ((Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"))
+		and (!Input.is_action_pressed("jump") or is_on_floor())):
 		sprite.play("run")		
 
 func _ready():
@@ -104,4 +103,8 @@ func _physics_process(delta):
 	elif Input.is_action_pressed("jump") and !is_on_floor():
 		velocity.y -= jump_force_extra
 		if is_duocorn: velocity.y -= jump_force_extra * 0.75
+	
 	if position.y > 220: reset()
+
+func _on_HurtBox_body_entered(body):
+	pass #reset()
