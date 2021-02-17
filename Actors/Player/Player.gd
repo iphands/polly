@@ -52,7 +52,7 @@ func do_duocorn(b : bool):
 	if b:
 		sprite = duo_sprite
 		hp = 4
-		emit_signal("hearts_changed", hp)
+		emit_signal("hearts_changed", -1)
 		is_duocorn = true
 		duo_sprite.visible = true
 		uni_sprite.visible = false
@@ -126,10 +126,11 @@ func bounce_back_up():
 
 func _on_HurtBox_body_entered(body):
 	if is_duocorn:
+		hp = 4
 		do_duocorn(false)
 	else:
 		hp -= 1
-		emit_signal("hearts_changed", hp)
+	emit_signal("hearts_changed", hp)
 
 	body.bounce_back()
 	if (body.global_position.x - global_position.x) > 0:
