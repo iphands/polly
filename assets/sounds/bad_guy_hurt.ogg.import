@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/bad_guy_hurt.ogg-2b0323b845329ff7c22b0122bc29ddb8.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/bad_guy_hurt.ogg"
+dest_files=[ "res://.import/bad_guy_hurt.ogg-2b0323b845329ff7c22b0122bc29ddb8.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
