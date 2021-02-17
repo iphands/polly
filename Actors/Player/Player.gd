@@ -25,6 +25,7 @@ onready var sprite : AnimatedSprite = duo_sprite
 onready var platform : CollisionShape2D = get_node("CollisionShape2D")
 onready var particles : Particles2D = get_node("DuocornSprite/Particles2D")
 onready var audio_gallop = $AudioGallop
+onready var audio_sparkles = $AudioSparkles
 
 signal hearts_changed
 
@@ -59,12 +60,15 @@ func do_duocorn(b : bool):
 		sprite = duo_sprite
 		hp = 4
 		emit_signal("hearts_changed", -1)
+		$AudioEvolve.play()
 		is_duocorn = true
 		duo_sprite.visible = true
 		uni_sprite.visible = false
 	else:
 		sprite = uni_sprite
 		particles.emitting = false
+		audio_sparkles.stop()
+		emit_signal("hearts_changed", 4)
 		is_duocorn = false
 		uni_sprite.visible = true
 		duo_sprite.visible = false
@@ -79,7 +83,7 @@ func _physics_process(delta):
 	if hp < 1:
 		print("dead")
 		queue_free()
-	
+
 	var run_speed = speed
 	platform.set_disabled(false)
 	sprite.speed_scale = 1.00
@@ -87,15 +91,24 @@ func _physics_process(delta):
 
 	if is_duocorn and speed >= max_speed_close:	
 		particles.emitting = true
+		if !audio_sparkles.playing:
+			audio_sparkles.playing = true
 
 	if (Input.is_action_pressed("run") and 
 		(Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"))):
 		speed *= 1.05
-		if speed > max_speed:
-			speed = max_speed
+		if speed > max_speed: speed = max_speed
+		var pitch = speed / (max_speed * 1.0) + 0.40
+		pitch = clamp(pitch, 1.05, 1.40)
+		audio_gallop.pitch_scale = pitch
+		audio_sparkles.volume_db = 0
 		sprite.speed_scale = (speed / base_speed)
 	else:
+		audio_gallop.pitch_scale = 1.0
 		particles.emitting = false
+		audio_sparkles.volume_db -= 0.5
+		if audio_sparkles.volume_db < -40:
+			audio_sparkles.stop()
 		speed = base_speed
 	
 	sprite_try_run()
@@ -126,6 +139,13 @@ func _physics_process(delta):
 		if is_duocorn: velocity.y -= jump_force_extra * 0.75
 	
 	if position.y > 220: die()
+	
+	if !is_on_floor():
+		state = STATE.MID_AIR
+
+	if last_state != state:	
+		audio_gallop.playing = STATE.RUNNING == state
+
 	last_state = state
 
 func die():

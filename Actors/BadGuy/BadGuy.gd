@@ -5,17 +5,28 @@ const ACCELERATION = 400
 const gravity : int = 2000
 var velocity : Vector2 = Vector2.ZERO
 var player = null
-var hp = 2
+var hp = 1
+var dying = false
+var can_hurt = true
 
 onready var sprite = $AnimatedSprite
+onready var death = $AudioDeath
+onready var hit_box = $HitBox
 
 func _ready():
 	sprite.flip_h = true
 
 func _physics_process(delta):
+	if dying: return
+	
 	if hp < 1:
-		self.queue_free()
-		
+		dying = true
+		$CollisionMain.set_deferred("disabled", true)
+		sprite.queue_free()
+		$HitBox.queue_free()
+		$HurtBox.queue_free()
+		death.play()
+
 	if player != null:
 		sprite.play("run")
 		var dist = (player.global_position - global_position).normalized()
@@ -39,15 +50,19 @@ func player_locked():
 func _on_Area2D_body_entered(body):
 	player = body
 
-func _on_Area2D_body_exited(body):
+func _on_Area2D_body_exited(_body):
 	player = null
 	
 func bounce_back():
 	velocity.x *= -1
 
-func _on_HurtBox_body_entered(body):
+func _on_HurtBox_body_entered(_body):
 	if (player.global_position.y - global_position.y) < -50:
 		# print(player.global_position.y - global_position.y)
 		hp -= 1
+		if hp > 0: $AudioHurt.play()
 		player.bounce_back_up()
 		velocity.y += 1000
+
+func _on_AudioDeath_finished():
+	self.queue_free()

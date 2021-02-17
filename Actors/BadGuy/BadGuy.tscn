@@ -1,7 +1,9 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://assets/chars/chicken.png" type="Texture" id=1]
 [ext_resource path="res://Actors/BadGuy/BadGuy.gd" type="Script" id=2]
+[ext_resource path="res://assets/sounds/bad_guy_death.ogg" type="AudioStream" id=3]
+[ext_resource path="res://assets/sounds/bad_guy_hurt.ogg" type="AudioStream" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 6.55674, 6.5649 )
@@ -65,20 +67,20 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=12]
-radius = 584.396
+radius = 494.6
 
 [sub_resource type="CircleShape2D" id=13]
 radius = 5.12338
 
 [sub_resource type="RectangleShape2D" id=14]
-extents = Vector2( 7.93233, 2.35898 )
+extents = Vector2( 12.5668, 2.35898 )
 
 [node name="BadGuy" type="KinematicBody2D"]
 collision_layer = 1025
 collision_mask = 1024
 script = ExtResource( 2 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionMain" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -1 )
 shape = SubResource( 1 )
 
@@ -113,6 +115,13 @@ collision_mask = 0
 position = Vector2( 0, -6.5 )
 shape = SubResource( 14 )
 one_way_collision = true
+
+[node name="AudioDeath" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+
+[node name="AudioHurt" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
 [connection signal="body_entered" from="HurtBox" to="." method="_on_HurtBox_body_entered"]
+[connection signal="finished" from="AudioDeath" to="." method="_on_AudioDeath_finished"]
