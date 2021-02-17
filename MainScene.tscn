@@ -15,6 +15,9 @@ script = ExtResource( 6 )
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 22, 102 )
 
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]
+remote_path = NodePath("../../Camera2D")
+
 [node name="TileMap" parent="." instance=ExtResource( 2 )]
 position = Vector2( 2, 130 )
 
@@ -47,3 +50,10 @@ scale = Vector2( 4, 4 )
 
 [node name="Hearts" parent="CanvasLayer" instance=ExtResource( 7 )]
 position = Vector2( 14.6767, 14.3048 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 22, 102 )
+current = true
+limit_left = -10
+limit_bottom = 575
+smoothing_enabled = true
