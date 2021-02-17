@@ -21,6 +21,8 @@ onready var sprite : AnimatedSprite = duo_sprite
 onready var platform : CollisionShape2D = get_node("CollisionShape2D")
 onready var particles : Particles2D = get_node("DuocornSprite/Particles2D")
 
+signal hearts_changed
+
 func sprite_handle_jumping():
 	# if !is_on_floor() and !Input.is_action_pressed("jump"):
 	if !is_on_floor():
@@ -33,7 +35,9 @@ func sprite_try_run():
 		sprite.play("run")		
 
 func _ready():
+	print(get_path())
 	start_position = position
+	emit_signal("hearts_changed", hp)
 	do_duocorn(false)
 
 func reset():
@@ -47,6 +51,8 @@ func reset():
 func do_duocorn(b : bool):
 	if b:
 		sprite = duo_sprite
+		hp = 4
+		emit_signal("hearts_changed", hp)
 		is_duocorn = true
 		duo_sprite.visible = true
 		uni_sprite.visible = false
@@ -109,7 +115,11 @@ func _physics_process(delta):
 		velocity.y -= jump_force_extra
 		if is_duocorn: velocity.y -= jump_force_extra * 0.75
 	
-	if position.y > 220: get_tree().reload_current_scene()
+	if position.y > 220: die()
+
+func die():
+	emit_signal("hearts_changed", 0)
+	hp = 0
 
 func bounce_back_up():
 	velocity.y = -500
@@ -119,6 +129,7 @@ func _on_HurtBox_body_entered(body):
 		do_duocorn(false)
 	else:
 		hp -= 1
+		emit_signal("hearts_changed", hp)
 
 	body.bounce_back()
 	if (body.global_position.x - global_position.x) > 0:

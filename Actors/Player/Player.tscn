@@ -47,12 +47,12 @@ region = Rect2( 384, 0, 128, 128 )
 [sub_resource type="AtlasTexture" id=8]
 flags = 4
 atlas = ExtResource( 3 )
-region = Rect2( 256, 0, 128, 128 )
+region = Rect2( 128, 0, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=9]
 flags = 4
 atlas = ExtResource( 3 )
-region = Rect2( 128, 0, 128, 128 )
+region = Rect2( 256, 0, 128, 128 )
 
 [sub_resource type="SpriteFrames" id=10]
 animations = [ {
@@ -68,12 +68,12 @@ animations = [ {
 }, {
 "frames": [ SubResource( 8 ) ],
 "loop": true,
-"name": "jump_falling",
+"name": "jump_rising",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 9 ) ],
 "loop": true,
-"name": "jump_rising",
+"name": "jump_falling",
 "speed": 5.0
 } ]
 
@@ -105,12 +105,12 @@ region = Rect2( 384, 128, 128, 128 )
 [sub_resource type="AtlasTexture" id=16]
 flags = 4
 atlas = ExtResource( 3 )
-region = Rect2( 256, 128, 128, 128 )
+region = Rect2( 128, 128, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=17]
 flags = 4
 atlas = ExtResource( 3 )
-region = Rect2( 128, 128, 128, 128 )
+region = Rect2( 256, 128, 128, 128 )
 
 [sub_resource type="SpriteFrames" id=18]
 animations = [ {
@@ -126,12 +126,12 @@ animations = [ {
 }, {
 "frames": [ SubResource( 16 ) ],
 "loop": true,
-"name": "jump_falling",
+"name": "jump_rising",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 17 ) ],
 "loop": true,
-"name": "jump_rising",
+"name": "jump_falling",
 "speed": 5.0
 } ]
 
@@ -205,4 +205,6 @@ collision_mask = 2147484672
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 shape = SubResource( 20 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 [connection signal="body_entered" from="HurtBox" to="." method="_on_HurtBox_body_entered"]
