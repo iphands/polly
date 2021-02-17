@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+enum STATE { RUNNING, IDLE, MID_AIR}
+
 var is_duocorn : bool = false
 var mid_jump : int = 0
 var score : int = 0
@@ -7,6 +9,8 @@ var speed : int = base_speed
 var start_position: Vector2 = Vector2()
 var velocity : Vector2 = Vector2()
 var hp = 4
+var state = STATE.IDLE
+var last_state = state
 
 const base_speed : int = 250
 const max_speed : int = base_speed * 3
@@ -20,6 +24,7 @@ onready var uni_sprite : AnimatedSprite = get_node("UnicornSprite")
 onready var sprite : AnimatedSprite = duo_sprite
 onready var platform : CollisionShape2D = get_node("CollisionShape2D")
 onready var particles : Particles2D = get_node("DuocornSprite/Particles2D")
+onready var audio_gallop = $AudioGallop
 
 signal hearts_changed
 
@@ -32,7 +37,8 @@ func sprite_handle_jumping():
 func sprite_try_run():
 	if ((Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"))
 		and (!Input.is_action_pressed("jump") or is_on_floor())):
-		sprite.play("run")		
+		state = STATE.RUNNING
+		sprite.play("run")
 
 func _ready():
 	print(get_path())
@@ -98,9 +104,13 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("move_left"):    flip_stuff(1)
 	elif Input.is_action_just_pressed("move_right"): flip_stuff(-1)
 
-	if Input.is_action_pressed("move_left"):    velocity.x -= run_speed
-	elif Input.is_action_pressed("move_right"): velocity.x += run_speed
-	elif !Input.is_action_pressed("jump"):      sprite.play("default")
+	if Input.is_action_pressed("move_left"):  
+		velocity.x -= run_speed
+	elif Input.is_action_pressed("move_right"):
+		velocity.x += run_speed
+	elif !Input.is_action_pressed("jump"):
+		sprite.play("default")
+		state = STATE.IDLE
 
 	velocity = move_and_slide(velocity, Vector2.UP)
 	velocity.y += gravity * delta
@@ -116,6 +126,7 @@ func _physics_process(delta):
 		if is_duocorn: velocity.y -= jump_force_extra * 0.75
 	
 	if position.y > 220: die()
+	last_state = state
 
 func die():
 	emit_signal("hearts_changed", 0)
@@ -130,7 +141,7 @@ func _on_HurtBox_body_entered(body):
 		do_duocorn(false)
 	else:
 		hp -= 1
-	emit_signal("hearts_changed", hp)
+		emit_signal("hearts_changed", hp)
 
 	body.bounce_back()
 	if (body.global_position.x - global_position.x) > 0:

@@ -1,5 +1,6 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
+[ext_resource path="res://assets/sounds/gallop.ogg" type="AudioStream" id=1]
 [ext_resource path="res://Actors/Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://assets/chars/polly/unicorn.png" type="Texture" id=3]
 
@@ -207,4 +208,8 @@ collision_mask = 2147484672
 shape = SubResource( 20 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="AudioGallop" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 1 )
+autoplay = true
 [connection signal="body_entered" from="HurtBox" to="." method="_on_HurtBox_body_entered"]
