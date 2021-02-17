@@ -46,6 +46,7 @@ func _ready():
 	start_position = position
 	emit_signal("hearts_changed", hp)
 	do_duocorn(false)
+	velocity.x = 1
 
 func reset():
 	particles.restart()
@@ -112,10 +113,12 @@ func _physics_process(delta):
 		speed = base_speed
 	
 	sprite_try_run()
-	sprite_handle_jumping()	
+	sprite_handle_jumping()
+	if velocity.x > 0.01:
+		flip_stuff(-1)
+	elif velocity.x < -0.01:
+		flip_stuff(1)
 
-	if Input.is_action_just_pressed("move_left"):    flip_stuff(1)
-	elif Input.is_action_just_pressed("move_right"): flip_stuff(-1)
 
 	if Input.is_action_pressed("move_left"):  
 		velocity.x -= run_speed
@@ -156,6 +159,7 @@ func bounce_back_up():
 	velocity.y = -500
 
 func _on_HurtBox_body_entered(body):
+	$AudioOuch.play()
 	if is_duocorn:
 		hp = 4
 		do_duocorn(false)

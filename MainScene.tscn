@@ -52,6 +52,25 @@ scale = Vector2( 4, 4 )
 [node name="Hearts" parent="CanvasLayer" instance=ExtResource( 7 )]
 position = Vector2( 14.6767, 14.3048 )
 
+[node name="Label" type="Label" parent="CanvasLayer"]
+anchor_left = 0.077
+anchor_top = -0.02
+anchor_right = 0.077
+anchor_bottom = -0.02
+margin_left = 981.44
+margin_top = 28.4
+margin_right = 1147.44
+margin_bottom = 86.4
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 2
+text = "Movement: w,a,s,d
+Run: <shift>
+Jump: <space>
+Restart level: <esc>"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 22, 102 )
 current = true

@@ -1,13 +1,14 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://assets/sounds/gallop.ogg" type="AudioStream" id=1]
 [ext_resource path="res://Actors/Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://assets/chars/polly/unicorn.png" type="Texture" id=3]
 [ext_resource path="res://assets/sounds/sparkle.ogg" type="AudioStream" id=4]
 [ext_resource path="res://assets/sounds/portal_ducorn.ogg" type="AudioStream" id=5]
+[ext_resource path="res://assets/sounds/ouch.ogg" type="AudioStream" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 10.1932, 11.4737 )
+extents = Vector2( 10.1932, 12.1756 )
 
 [sub_resource type="GDScript" id=2]
 script/source = "extends CollisionShape2D
@@ -220,4 +221,7 @@ stream = ExtResource( 4 )
 
 [node name="AudioEvolve" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 5 )
+
+[node name="AudioOuch" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
 [connection signal="body_entered" from="HurtBox" to="." method="_on_HurtBox_body_entered"]

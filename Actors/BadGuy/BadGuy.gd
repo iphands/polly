@@ -16,16 +16,20 @@ onready var hit_box = $HitBox
 func _ready():
 	sprite.flip_h = true
 
+func die():
+	dying = true
+	$CollisionMain.set_deferred("disabled", true)
+	sprite.queue_free()
+	$HitBox.queue_free()
+	$HurtBox.queue_free()
+	death.play()
+	var butterfly = load("res://Actors/BadGuy/Butterfly.tscn").instance()
+	get_tree().root.add_child(butterfly)
+	butterfly.position = position
+
 func _physics_process(delta):
 	if dying: return
-	
-	if hp < 1:
-		dying = true
-		$CollisionMain.set_deferred("disabled", true)
-		sprite.queue_free()
-		$HitBox.queue_free()
-		$HurtBox.queue_free()
-		death.play()
+	if hp < 1: die()
 
 	if player != null:
 		sprite.play("run")
