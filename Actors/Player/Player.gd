@@ -6,6 +6,7 @@ var score : int = 0
 var speed : int = base_speed
 var start_position: Vector2 = Vector2()
 var velocity : Vector2 = Vector2()
+var hp = 4
 
 const base_speed : int = 250
 const max_speed : int = base_speed * 3
@@ -63,10 +64,14 @@ func flip_stuff(dir):
 	particles.rotation_degrees = (-45 * dir)
 
 func _physics_process(delta):
+	if hp < 1:
+		print("dead")
+		queue_free()
+	
 	var run_speed = speed
 	platform.set_disabled(false)
 	sprite.speed_scale = 1.00
-	velocity.x = 0
+	velocity.x = (velocity.x * 0.15)
 
 	if is_duocorn and speed >= max_speed_close:	
 		particles.emitting = true
@@ -104,7 +109,19 @@ func _physics_process(delta):
 		velocity.y -= jump_force_extra
 		if is_duocorn: velocity.y -= jump_force_extra * 0.75
 	
-	if position.y > 220: reset()
+	if position.y > 220: get_tree().reload_current_scene()
+
+func bounce_back_up():
+	velocity.y = -500
 
 func _on_HurtBox_body_entered(body):
-	pass #reset()
+	if is_duocorn:
+		do_duocorn(false)
+	else:
+		hp -= 1
+
+	body.bounce_back()
+	if (body.global_position.x - global_position.x) > 0:
+		velocity.x -= 20000
+	else:
+		velocity.x += 20000
