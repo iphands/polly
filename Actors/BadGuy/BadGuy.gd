@@ -10,27 +10,31 @@ var dying = false
 var can_hurt = true
 
 onready var sprite = $AnimatedSprite
-onready var death = $AudioDeath
+onready var audio_death = $AudioDeath
 onready var hit_box = $HitBox
 
 func _ready():
 	sprite.flip_h = true
 
 func die():
+	audio_death.play()
 	dying = true
 	$CollisionMain.set_deferred("disabled", true)
 	sprite.queue_free()
 	$HitBox.queue_free()
 	$HurtBox.queue_free()
-	death.play()
+
 	var butterfly = load("res://Actors/BadGuy/Butterfly.tscn").instance()
 	get_tree().root.add_child(butterfly)
 	butterfly.position = position
 
 func _physics_process(delta):
 	if dying: return
-	if hp < 1: die()
+	if hp < 1:
+		die()
+		return
 
+	can_hurt = true
 	if player != null:
 		sprite.play("run")
 		var dist = (player.global_position - global_position).normalized()
@@ -60,13 +64,13 @@ func _on_Area2D_body_exited(_body):
 func bounce_back():
 	velocity.x *= -1
 
-func _on_HurtBox_body_entered(_body):
+func _on_AudioDeath_finished():
+	self.queue_free()
+
+func _on_HurtBox_area_entered(area):
+	can_hurt = false
 	if (player.global_position.y - global_position.y) < -50:
-		# print(player.global_position.y - global_position.y)
 		hp -= 1
 		if hp > 0: $AudioHurt.play()
 		player.bounce_back_up()
 		velocity.y += 1000
-
-func _on_AudioDeath_finished():
-	self.queue_free()

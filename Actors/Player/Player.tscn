@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://assets/sounds/gallop.ogg" type="AudioStream" id=1]
 [ext_resource path="res://Actors/Player/Player.gd" type="Script" id=2]
@@ -162,7 +162,10 @@ hue_variation = 0.47
 hue_variation_random = 0.71
 
 [sub_resource type="RectangleShape2D" id=20]
-extents = Vector2( 12.8871, 8.0885 )
+extents = Vector2( 9.20362, 8.0885 )
+
+[sub_resource type="RectangleShape2D" id=21]
+extents = Vector2( 9.44541, 1.91466 )
 
 [node name="Player" type="KinematicBody2D"]
 z_index = 1
@@ -171,7 +174,7 @@ collision_mask = 2147483664
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0.75, 0 )
+visible = false
 shape = SubResource( 1 )
 script = SubResource( 2 )
 
@@ -199,20 +202,31 @@ collision_layer = 0
 collision_mask = 2147484672
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2( 0, 2 )
 shape = SubResource( 20 )
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
 [node name="AudioGallop" type="AudioStreamPlayer2D" parent="."]
+visible = false
 stream = ExtResource( 1 )
 autoplay = true
 
 [node name="AudioSparkles" type="AudioStreamPlayer2D" parent="."]
+visible = false
 stream = ExtResource( 4 )
 
 [node name="AudioEvolve" type="AudioStreamPlayer2D" parent="."]
+visible = false
 stream = ExtResource( 5 )
 
 [node name="AudioOuch" type="AudioStreamPlayer2D" parent="."]
+visible = false
 stream = ExtResource( 6 )
+
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 524288
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2( -0.0936432, 10.6538 )
+shape = SubResource( 21 )
 [connection signal="body_entered" from="HurtBox" to="." method="_on_HurtBox_body_entered"]

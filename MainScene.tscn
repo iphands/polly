@@ -15,7 +15,7 @@ scale = Vector2( 4, 4 )
 script = ExtResource( 6 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 22, 102 )
+position = Vector2( 252.385, 12.203 )
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]
 remote_path = NodePath("../../Camera2D")
@@ -72,7 +72,7 @@ __meta__ = {
 }
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 22, 102 )
+position = Vector2( 252.385, 12.203 )
 current = true
 limit_left = -10
 limit_bottom = 575
@@ -90,7 +90,7 @@ scale = Vector2( 1.14074, 1.14074 )
 texture = ExtResource( 9 )
 
 [node name="GlobalSounds" type="Node2D" parent="."]
-position = Vector2( 22, 102 )
+position = Vector2( 252.385, 12.203 )
 
 [node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="GlobalSounds"]
 position = Vector2( 22, 102 )
