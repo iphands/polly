@@ -20,7 +20,7 @@ func _ready():
 	colors.shuffle()
 	self_modulate = colors[0]
  
-func _physics_process(delta):
+func _physics_process(_delta):
 	global_position = global_position.move_toward(target, 4)
 	if global_position.y > 4000:
 		queue_free()
