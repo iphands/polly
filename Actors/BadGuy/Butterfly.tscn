@@ -182,7 +182,8 @@ animations = [ {
 } ]
 
 [node name="Butterfly" type="AnimatedSprite"]
+self_modulate = Color( 1, 0.84375, 0, 1 )
 frames = SubResource( 35 )
-frame = 17
+frame = 30
 playing = true
 script = ExtResource( 2 )
