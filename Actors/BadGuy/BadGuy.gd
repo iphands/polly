@@ -67,7 +67,7 @@ func bounce_back():
 func _on_AudioDeath_finished():
 	self.queue_free()
 
-func _on_HurtBox_area_entered(area):
+func _on_HurtBox_area_entered(_area):
 	can_hurt = false
 	if (player.global_position.y - global_position.y) < -50:
 		hp -= 1

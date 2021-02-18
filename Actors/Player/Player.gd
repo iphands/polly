@@ -5,7 +5,7 @@ enum STATE { RUNNING, IDLE, MID_AIR}
 var is_duocorn : bool = false
 var mid_jump : int = 0
 var score : int = 0
-var speed : int = base_speed
+var speed : float = base_speed
 var start_position: Vector2 = Vector2()
 var velocity : Vector2 = Vector2()
 var hp = 4
