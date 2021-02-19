@@ -1,17 +1,22 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/Tiles/door_openMid_frame.png" type="Texture" id=1]
 [ext_resource path="res://assets/Tiles/door_openTop.png" type="Texture" id=2]
 [ext_resource path="res://assets/Tiles/door_openMid.png" type="Texture" id=3]
 [ext_resource path="res://assets/Tiles/door_openTop_frame.png" type="Texture" id=4]
 [ext_resource path="res://assets/rainbow.png" type="Texture" id=5]
+[ext_resource path="res://Portal.gd" type="Script" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 32.6812, 8.27642 )
+extents = Vector2( 24.3485, 18.7905 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 8.86037, 17.9529 )
 
 [node name="PortalStaticBody2D" type="StaticBody2D"]
 scale = Vector2( 0.45, 0.45 )
 collision_layer = 0
+script = ExtResource( 6 )
 
 [node name="PortalFrameSprite" type="Sprite" parent="."]
 visible = false
@@ -35,19 +40,27 @@ z_index = 5
 texture = ExtResource( 4 )
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
-position = Vector2( -0.560599, -54.1914 )
+light_mask = -2147483647
+position = Vector2( -0.352, -73.535 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 13.4944, -4.81313 )
-scale = Vector2( 0.466051, 1 )
+position = Vector2( 17, -4.525 )
+scale = Vector2( 0.581447, 1 )
 z_index = 1
 texture = ExtResource( 5 )
 offset = Vector2( 32.5134, -24.2167 )
 
 [node name="Sprite2" type="Sprite" parent="."]
-position = Vector2( -49.2264, -4.68204 )
-scale = Vector2( 0.508923, 1 )
+position = Vector2( -59.4957, -4.5249 )
+scale = Vector2( 0.616953, 1 )
 texture = ExtResource( 5 )
 offset = Vector2( 32.5134, -24.2167 )
 flip_h = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 36.4388, 0.37373 )
+shape = SubResource( 2 )
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

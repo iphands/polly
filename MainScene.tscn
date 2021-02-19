@@ -30,9 +30,8 @@ tile_data = PoolIntArray( -1048577, 1, 0, -983041, 1, 0, -917505, 1, 0, -851969,
 [node name="PortalStaticBody2D" parent="." instance=ExtResource( 4 )]
 position = Vector2( 108.355, 72 )
 
-[node name="Area2D" parent="." instance=ExtResource( 3 )]
-position = Vector2( 114, 86 )
-scale = Vector2( 0.45, 0.45 )
+[node name="Area2D" parent="PortalStaticBody2D" instance=ExtResource( 3 )]
+position = Vector2( 12.5444, 31.1111 )
 
 [node name="BadGuys" type="Node" parent="."]
 
@@ -126,3 +125,6 @@ position = Vector2( 21.3278, 114.143 )
 position = Vector2( 22, 102 )
 stream = ExtResource( 8 )
 autoplay = true
+
+[node name="PortalStaticBody2D2" parent="." instance=ExtResource( 4 )]
+position = Vector2( 961.63, 44.2032 )
