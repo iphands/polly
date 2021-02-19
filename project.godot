@@ -20,10 +20,6 @@ config/description="Duocorn adventures"
 run/main_scene="res://MainScene.tscn"
 config/icon="res://icon.png"
 
-[audio]
-
-output_latency.web=25
-
 [display]
 
 window/size/width=1280

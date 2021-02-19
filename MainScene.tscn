@@ -47,6 +47,30 @@ scale = Vector2( 4, 4 )
 position = Vector2( 1718.65, 469.259 )
 scale = Vector2( 4, 4 )
 
+[node name="BadGuy2" parent="BadGuys" instance=ExtResource( 5 )]
+position = Vector2( 4690.63, 220.943 )
+scale = Vector2( 4, 4 )
+
+[node name="BadGuy5" parent="BadGuys" instance=ExtResource( 5 )]
+position = Vector2( 4165.48, 407.411 )
+scale = Vector2( 4, 4 )
+
+[node name="BadGuy6" parent="BadGuys" instance=ExtResource( 5 )]
+position = Vector2( 3819.18, 102.974 )
+scale = Vector2( 4, 4 )
+
+[node name="BadGuy7" parent="BadGuys" instance=ExtResource( 5 )]
+position = Vector2( 2803.12, 289.442 )
+scale = Vector2( 4, 4 )
+
+[node name="BadGuy8" parent="BadGuys" instance=ExtResource( 5 )]
+position = Vector2( 2277.97, -140.576 )
+scale = Vector2( 4, 4 )
+
+[node name="BadGuy9" parent="BadGuys" instance=ExtResource( 5 )]
+position = Vector2( 3415.8, 308.469 )
+scale = Vector2( 4, 4 )
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Hearts" parent="CanvasLayer" instance=ExtResource( 7 )]

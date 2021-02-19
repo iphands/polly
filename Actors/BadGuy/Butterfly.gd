@@ -18,5 +18,5 @@ func _ready():
  
 func _physics_process(_delta):
 	global_position = global_position.move_toward(target, 4)
-	if global_position.y < -1024:
+	if global_position.y < -2048:
 		queue_free()

@@ -1,20 +1,27 @@
 extends KinematicBody2D
 
+enum states { IDLE, ROAM, CHASE }
+
 const MAX_SPEED = 300
 const ACCELERATION = 400
 const gravity : int = 2000
+const ROAM_MAX = 2
+const IDLE_STATES = [ states.IDLE, states.ROAM ]
 var velocity : Vector2 = Vector2.ZERO
 var player = null
 var hp = 1
 var dying = false
 var can_hurt = true
+var state = states.ROAM
 
 onready var sprite = $AnimatedSprite
 onready var audio_death = $AudioDeath
 onready var hit_box = $HitBox
+onready var initial_pos = global_position
 
 func _ready():
 	sprite.flip_h = true
+	$StateTimer.start(rand_range(0, ROAM_MAX))
 
 func die():
 	audio_death.play()
@@ -45,6 +52,15 @@ func _physics_process(delta):
 			#	velocity.y -= (gravity * 1.1) * delta
 		
 		velocity = velocity.move_toward(dist * MAX_SPEED, ACCELERATION * delta)
+	elif state == states.ROAM:
+		sprite.play("run")
+		if abs(global_position.x - initial_pos.x) > 50:
+			velocity.x = velocity.x + rand_range(-25, 25)
+		else:
+			velocity = velocity.move_toward(initial_pos, 0.8)
+		sprite.flip_h = velocity.x < 0
+		sprite.speed_scale = abs(velocity.x / 200)
+		
 	else:
 		sprite.play("idle")
 		velocity = Vector2(0, velocity.y)
@@ -56,9 +72,11 @@ func player_locked():
 	return player != null
 
 func _on_Area2D_body_entered(body):
+	state = states.CHASE
 	player = body
 
 func _on_Area2D_body_exited(_body):
+	state = states.ROAM
 	player = null
 	
 func bounce_back():
@@ -74,3 +92,11 @@ func _on_HurtBox_area_entered(_area):
 		if hp > 0: $AudioHurt.play()
 		player.bounce_back_up()
 		velocity.y += 1000
+
+func _on_StateTimer_timeout():
+	if state == states.CHASE: return
+	$StateTimer.stop()
+	# print("old state: " + str(state))
+	state = IDLE_STATES[rand_range(0, IDLE_STATES.size())]
+	# print("new state: " + str(state))
+	$StateTimer.start(rand_range(0, ROAM_MAX))

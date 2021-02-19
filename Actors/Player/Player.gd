@@ -11,6 +11,7 @@ var velocity : Vector2 = Vector2()
 var hp = 4
 var state = STATE.IDLE
 var last_state = state
+var invuln = false
 
 const base_speed : int = 250
 const max_speed : int = base_speed * 3
@@ -59,6 +60,7 @@ func reset():
 func do_duocorn(b : bool):
 	if b:
 		sprite = duo_sprite
+		sprite.self_modulate = Color(1, 1, 1)
 		hp = 4
 		emit_signal("hearts_changed", -1)
 		$AudioEvolve.play()
@@ -114,16 +116,18 @@ func _physics_process(delta):
 	
 	sprite_try_run()
 	sprite_handle_jumping()
+	
 	if velocity.x > 0.01:
 		flip_stuff(-1)
 	elif velocity.x < -0.01:
 		flip_stuff(1)
 
-
 	if Input.is_action_pressed("move_left"):  
 		velocity.x -= run_speed
+		flip_stuff(1)
 	elif Input.is_action_pressed("move_right"):
 		velocity.x += run_speed
+		flip_stuff(-1)
 	elif !Input.is_action_pressed("jump"):
 		sprite.play("default")
 		state = STATE.IDLE
@@ -159,6 +163,9 @@ func bounce_back_up():
 	velocity.y = -500
 
 func _on_HurtBox_body_entered(body):
+	if invuln: return
+	$TimerInvuln.start(0.250)
+	invuln = true
 	$AudioOuch.play()
 	if is_duocorn:
 		hp = 4
@@ -172,3 +179,11 @@ func _on_HurtBox_body_entered(body):
 		velocity.x -= 20000
 	else:
 		velocity.x += 20000
+
+	if invuln:
+		sprite.self_modulate = Color(0.5, 0.5, 0.5)
+
+func _on_TimerInvuln_timeout():
+	invuln = false
+	sprite.self_modulate = Color(1, 1, 1)
+	$TimerInvuln.stop()
