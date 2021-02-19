@@ -101,6 +101,7 @@ current = true
 limit_left = -10
 limit_bottom = 575
 smoothing_enabled = true
+editor_draw_limits = true
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 scroll_base_scale = Vector2( 0.5, 0.5 )

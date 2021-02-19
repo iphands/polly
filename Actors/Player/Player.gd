@@ -180,8 +180,7 @@ func _on_HurtBox_body_entered(body):
 	else:
 		velocity.x += 20000
 
-	if invuln:
-		sprite.self_modulate = Color(0.5, 0.5, 0.5)
+	sprite.self_modulate = Color(0.5, 0.5, 0.5)
 
 func _on_TimerInvuln_timeout():
 	invuln = false
