@@ -85,12 +85,13 @@ func bounce_back():
 func _on_AudioDeath_finished():
 	self.queue_free()
 
-func _on_HurtBox_area_entered(_area):
+func _on_HurtBox_area_entered(area):
 	can_hurt = false
-	if (player.global_position.y - global_position.y) < -50:
+	var tmp_player = area.get_parent()
+	if (tmp_player.global_position.y - global_position.y) < -50:
 		hp -= 1
 		if hp > 0: $AudioHurt.play()
-		player.bounce_back_up()
+		tmp_player.bounce_back_up()
 		velocity.y += 1000
 
 func _on_StateTimer_timeout():

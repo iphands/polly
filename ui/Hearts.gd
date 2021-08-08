@@ -6,8 +6,12 @@ onready var hearts_gold = $Label/HeartsGold
 func _ready():
 	hearts_gold.visible = false
 	set_hearts(4)
-	var player = get_node("/root/MainScene/Player")
-	player.connect("hearts_changed", self, "set_hearts")
+	if get_path() == "/root/MainScene/CanvasLayer/Hearts":
+		var player = get_node("/root/MainScene/Player")
+		player.connect("hearts_changed", self, "set_hearts")
+	elif get_path() == "/root/MainScene/CanvasLayer/Hearts2":
+		var player = get_node("/root/MainScene/Player2")
+		player.connect("hearts_changed", self, "set_hearts")
 
 func set_hearts(hearts : int):
 	hearts_full.visible = hearts > 0

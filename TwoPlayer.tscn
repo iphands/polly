@@ -1,0 +1,114 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Actors/Player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://TwoPlayer.gd" type="Script" id=2]
+[ext_resource path="res://ui/Hearts.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Portal.tscn" type="PackedScene" id=5]
+[ext_resource path="res://TileMap.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/backgrounds/landscape.png" type="Texture" id=7]
+[ext_resource path="res://assets/sounds/music.ogg" type="AudioStream" id=8]
+
+[node name="MainScene" type="Node2D"]
+scale = Vector2( 4, 4 )
+script = ExtResource( 2 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 21.3278, 114.143 )
+
+[node name="RemoteTransform2D2" type="RemoteTransform2D" parent="Player"]
+remote_path = NodePath("../../GlobalSounds")
+
+[node name="TileMap" parent="." instance=ExtResource( 6 )]
+position = Vector2( 2, 130 )
+tile_data = PoolIntArray( -1835009, 9, 0, -1900544, 9, 0, -1900543, 9, 0, -1900542, 9, 0, -1900541, 9, 0, -1900540, 9, 0, -1900539, 9, 0, -1900538, 9, 0, -1900537, 9, 0, -1900536, 9, 0, -1900535, 9, 0, -1900534, 9, 0, -1900533, 9, 0, -1900532, 9, 0, -1900531, 9, 0, -1900530, 9, 0, -1900529, 9, 0, -1900528, 9, 0, -1900527, 9, 0, -1900526, 9, 0, -1900525, 9, 0, -1900524, 9, 0, -1900523, 9, 0, -1900522, 9, 0, -1900521, 9, 0, -1900520, 9, 0, -1900519, 9, 0, -1900518, 9, 0, -1900517, 9, 0, -1900516, 9, 0, -1900515, 9, 0, -1900514, 9, 0, -1900513, 9, 0, -1900512, 9, 0, -1900511, 9, 0, -1900510, 9, 0, -1900509, 9, 0, -1900508, 9, 0, -1900507, 9, 0, -1900506, 9, 0, -1900505, 9, 0, -1900504, 9, 0, -1900503, 9, 0, -1900502, 9, 0, -1900501, 9, 0, -1900500, 9, 0, -1900499, 9, 0, -1769473, 9, 0, -1834963, 9, 0, -1703937, 9, 0, -1769427, 9, 0, -1638401, 9, 0, -1703891, 9, 0, -1572865, 9, 0, -1638355, 9, 0, -1507329, 9, 0, -1572819, 9, 0, -1441793, 9, 0, -1507283, 9, 0, -1376257, 9, 0, -1441747, 9, 0, -1310721, 9, 0, -1376211, 9, 0, -1245185, 9, 0, -1310675, 9, 0, -1179649, 9, 0, -1245139, 9, 0, -1114113, 9, 0, -1179603, 9, 0, -1048577, 9, 0, -1114067, 9, 0, -983041, 9, 0, -1048531, 9, 0, -917505, 9, 0, -983040, 5, 0, -983039, 5, 0, -983038, 5, 0, -983037, 5, 0, -983036, 5, 0, -983035, 5, 0, -983034, 5, 0, -983033, 5, 0, -983032, 5, 0, -983031, 5, 0, -983030, 5, 0, -983029, 5, 0, -983028, 5, 0, -983027, 5, 0, -983026, 7, 0, -983010, 6, 0, -983009, 5, 0, -983008, 5, 0, -983007, 5, 0, -983006, 5, 0, -983005, 5, 0, -983004, 5, 0, -983003, 5, 0, -983002, 5, 0, -983001, 5, 0, -983000, 5, 0, -982999, 5, 0, -982998, 5, 0, -982997, 5, 0, -982996, 5, 0, -982995, 9, 0, -851969, 9, 0, -917459, 9, 0, -786433, 9, 0, -851923, 9, 0, -720897, 9, 0, -786387, 9, 0, -655361, 9, 0, -720882, 6, 0, -720881, 5, 0, -720880, 5, 0, -720879, 5, 0, -720878, 7, 0, -720870, 6, 0, -720869, 5, 0, -720868, 5, 0, -720867, 5, 0, -720866, 7, 0, -720851, 9, 0, -589825, 9, 0, -655315, 9, 0, -524289, 9, 0, -589779, 9, 0, -458753, 9, 0, -524284, 6, 0, -524283, 5, 0, -524282, 5, 0, -524281, 5, 0, -524280, 5, 0, -524279, 5, 0, -524278, 5, 0, -524277, 5, 0, -524276, 7, 0, -524257, 6, 0, -524256, 5, 0, -524255, 5, 0, -524254, 5, 0, -524253, 5, 0, -524252, 5, 0, -524251, 5, 0, -524250, 5, 0, -524249, 5, 0, -524248, 7, 0, -524243, 9, 0, -393217, 9, 0, -458707, 9, 0, -327681, 9, 0, -393216, 5, 0, -393215, 7, 0, -393173, 6, 0, -393172, 5, 0, -393171, 9, 0, -262145, 9, 0, -327635, 9, 0, -196609, 9, 0, -262099, 9, 0, -131073, 9, 0, -196604, 6, 0, -196603, 5, 0, -196602, 7, 0, -196588, 6, 0, -196587, 5, 0, -196586, 5, 0, -196585, 5, 0, -196584, 5, 0, -196583, 7, 0, -196570, 6, 0, -196569, 5, 0, -196568, 7, 0, -196563, 9, 0, -65537, 9, 0, -131027, 9, 0, -1, 9, 0, -65491, 9, 0, 65532, 5, 0, 65533, 5, 0, 65534, 5, 0, 65535, 9, 0, 0, 5, 0, 1, 5, 0, 2, 5, 0, 3, 5, 0, 4, 5, 0, 5, 5, 0, 6, 5, 0, 7, 5, 0, 8, 5, 0, 9, 5, 0, 10, 5, 0, 11, 5, 0, 12, 5, 0, 13, 5, 0, 14, 5, 0, 15, 5, 0, 16, 5, 0, 17, 5, 0, 18, 5, 0, 19, 5, 0, 20, 5, 0, 21, 5, 0, 22, 5, 0, 23, 5, 0, 24, 5, 0, 25, 5, 0, 26, 5, 0, 27, 5, 0, 28, 5, 0, 29, 5, 0, 30, 5, 0, 31, 5, 0, 32, 5, 0, 33, 5, 0, 34, 5, 0, 35, 5, 0, 36, 5, 0, 37, 5, 0, 38, 5, 0, 39, 5, 0, 40, 5, 0, 41, 5, 0, 42, 5, 0, 43, 5, 0, 44, 5, 0, 45, 5, 0, 46, 5, 0, 47, 5, 0, 48, 5, 0, 49, 5, 0, 50, 5, 0, 51, 5, 0, 52, 5, 0, 53, 5, 0, 54, 5, 0 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Hearts" parent="CanvasLayer" instance=ExtResource( 4 )]
+position = Vector2( 14.6767, 14.3048 )
+
+[node name="Hearts2" parent="CanvasLayer" instance=ExtResource( 4 )]
+position = Vector2( 1051.67, 12.4021 )
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+visible = false
+anchor_left = 0.077
+anchor_top = -0.02
+anchor_right = 0.077
+anchor_bottom = -0.02
+margin_left = 981.44
+margin_top = 28.4
+margin_right = 1147.44
+margin_bottom = 86.4
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 2
+text = "Movement: w,a,s,d
+Run: <shift>
+Jump: <space>
+Restart level: <esc>"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="CanvasLayer"]
+visible = false
+modulate = Color( 0, 0, 0, 1 )
+self_modulate = Color( 0, 0, 0, 1 )
+anchor_left = 0.898
+anchor_right = 0.898
+margin_left = 21.3715
+margin_top = 9.92535
+margin_right = 265.371
+margin_bottom = 173.925
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "fdfdsdsfsdsf
+"
+align = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 21.3278, 114.143 )
+current = true
+zoom = Vector2( 2, 2 )
+limit_left = -10
+limit_bottom = 575
+smoothing_enabled = true
+editor_draw_limits = true
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+scroll_base_scale = Vector2( 0.5, 0.5 )
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 2, 2 )
+motion_mirroring = Vector2( 2190, 0 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2( 1060.31, 72.2168 )
+scale = Vector2( 1.14074, 1.14074 )
+texture = ExtResource( 7 )
+
+[node name="GlobalSounds" type="Node2D" parent="."]
+position = Vector2( 21.3278, 114.143 )
+
+[node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="GlobalSounds"]
+position = Vector2( 22, 102 )
+stream = ExtResource( 8 )
+autoplay = true
+
+[node name="Portals" type="Node" parent="."]
+
+[node name="PortalStaticBody2D" parent="Portals" instance=ExtResource( 5 )]
+position = Vector2( 1300.49, 281.43 )
+scale = Vector2( 2, 2 )
+
+[node name="Player2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 610.33, 113.511 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

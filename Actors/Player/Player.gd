@@ -27,6 +27,8 @@ onready var platform : CollisionShape2D = get_node("CollisionShape2D")
 onready var particles : Particles2D = get_node("DuocornSprite/Particles2D")
 onready var audio_gallop = $AudioGallop
 onready var audio_sparkles = $AudioSparkles
+onready var is_player_one = get_path() == "/root/MainScene/Player"
+var buttons = {}
 
 signal hearts_changed
 
@@ -37,13 +39,34 @@ func sprite_handle_jumping():
 		else: sprite.play("jump_falling")
 		
 func sprite_try_run():
-	if ((Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"))
-		and (!Input.is_action_pressed("jump") or is_on_floor())):
+	if ((Input.is_action_pressed(buttons["left"]) or Input.is_action_pressed(buttons["right"]))
+		and (!Input.is_action_pressed(buttons["jump"]) or is_on_floor())):
 		state = STATE.RUNNING
 		sprite.play("run")
 
 func _ready():
 	print(get_path())
+	
+	if is_player_one:
+		buttons = {
+			"up": "move_up",
+			"down": "move_down",
+			"left": "move_left",
+			"right": "move_right",
+			"jump": "jump",
+			"run": "run",
+		}
+	else:
+		$DuocornSprite.set_modulate(Color(1.0, 0.8, 1.0))
+		$UnicornSprite.set_modulate(Color(1.0, 0.8, 1.0))
+		buttons = {
+			"up": "p2_move_up",
+			"down": "p2_move_down",
+			"left": "p2_move_left",
+			"right": "p2_move_right",
+			"jump": "p2_jump",
+			"run": "p2_run",
+		}	
 	start_position = position
 	emit_signal("hearts_changed", hp)
 	do_duocorn(false)
@@ -97,8 +120,8 @@ func _physics_process(delta):
 		if !audio_sparkles.playing:
 			audio_sparkles.playing = true
 
-	if (Input.is_action_pressed("run") and 
-		(Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"))):
+	if (Input.is_action_pressed(buttons["run"]) and 
+		(Input.is_action_pressed(buttons["left"]) or Input.is_action_pressed(buttons["right"]))):
 		speed *= 1.05
 		if speed > max_speed: speed = max_speed
 		var pitch = speed / (max_speed * 1.0) + 0.40
@@ -122,27 +145,27 @@ func _physics_process(delta):
 	elif velocity.x < -0.01:
 		flip_stuff(1)
 
-	if Input.is_action_pressed("move_left"):  
+	if Input.is_action_pressed(buttons["left"]):  
 		velocity.x -= run_speed
 		flip_stuff(1)
-	elif Input.is_action_pressed("move_right"):
+	elif Input.is_action_pressed(buttons["right"]):
 		velocity.x += run_speed
 		flip_stuff(-1)
-	elif !Input.is_action_pressed("jump"):
+	elif !Input.is_action_pressed(buttons["jump"]):
 		sprite.play("default")
 		state = STATE.IDLE
 
 	velocity = move_and_slide(velocity, Vector2.UP)
 	velocity.y += gravity * delta
 
-	if Input.is_action_just_pressed("jump") and is_on_floor():
+	if Input.is_action_just_pressed(buttons["jump"]) and is_on_floor():
 		# print(global_position.x)
-		if Input.is_action_pressed("move_down"):
+		if Input.is_action_pressed(buttons["down"]):
 			platform.set_disabled(true)
 			position.y += 2
 			return
 		velocity.y -= jump_force
-	elif Input.is_action_pressed("jump") and !is_on_floor():
+	elif Input.is_action_pressed(buttons["jump"]) and !is_on_floor():
 		velocity.y -= jump_force_extra
 		if is_duocorn: velocity.y -= jump_force_extra * 0.75
 	
