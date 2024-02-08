@@ -12,6 +12,7 @@ var hp = 4
 var state = STATE.IDLE
 var last_state = state
 var invuln = false
+var running = false
 
 const base_speed : int = 250
 const max_speed : int = base_speed * 3
@@ -29,6 +30,10 @@ onready var audio_gallop = $AudioGallop
 onready var audio_sparkles = $AudioSparkles
 onready var is_player_one = get_path() == "/root/MainScene/Player"
 var buttons = {}
+
+onready var run_button = get_node("/root/MainScene/CanvasLayer2/run")
+onready var run_button_up = run_button.get_texture()
+onready var run_button_down = run_button.get_texture_pressed()
 
 signal hearts_changed
 
@@ -120,7 +125,14 @@ func _physics_process(delta):
 		if !audio_sparkles.playing:
 			audio_sparkles.playing = true
 
-	if (Input.is_action_pressed(buttons["run"]) and 
+	if (Input.is_action_just_pressed("toggle_run")):
+		running = !running
+		if running:
+			run_button.set_texture(run_button_down)
+		else:
+			run_button.set_texture(run_button_up)	
+
+	if ((Input.is_action_pressed(buttons["run"]) or running) and 
 		(Input.is_action_pressed(buttons["left"]) or Input.is_action_pressed(buttons["right"]))):
 		speed *= 1.05
 		if speed > max_speed: speed = max_speed

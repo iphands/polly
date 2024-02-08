@@ -5,7 +5,7 @@ var chickens = []
 func _process(_delta):
 	if Input.is_action_just_pressed("ui_cancel"):
 		for chicken in chickens:
-			if chicken:
+			if chicken and is_instance_valid(chicken):
 				chicken.queue_free()
 		chickens.clear()
 		var _tmp = get_tree().reload_current_scene()
