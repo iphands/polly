@@ -17,7 +17,7 @@ var running = false
 const base_speed : int = 250
 const max_speed : int = base_speed * 3
 const max_speed_close = max_speed * 0.80
-const jump_force : int = 600
+const jump_force : int = 650
 const jump_force_extra : float = jump_force * 0.030
 const gravity : int = 2000
 
@@ -118,9 +118,13 @@ func _physics_process(delta):
 	var run_speed = speed
 	platform.set_disabled(false)
 	sprite.speed_scale = 1.00
-	velocity.x = (velocity.x * 0.15)
+	
+	# This is the global velocity decay... affects all hits and moves
+	# if (!Input.is_action_pressed(buttons["left"]) or Input.is_action_pressed(buttons["right"])):
+	velocity.x = (velocity.x * 0.25)
+		
 
-	if is_duocorn and speed >= max_speed_close:	
+	if is_duocorn and speed >= max_speed_close:
 		particles.emitting = true
 		if !audio_sparkles.playing:
 			audio_sparkles.playing = true
@@ -130,7 +134,7 @@ func _physics_process(delta):
 		if running:
 			run_button.set_texture(run_button_down)
 		else:
-			run_button.set_texture(run_button_up)	
+			run_button.set_texture(run_button_up)
 
 	if ((Input.is_action_pressed(buttons["run"]) or running) and 
 		(Input.is_action_pressed(buttons["left"]) or Input.is_action_pressed(buttons["right"]))):
@@ -152,6 +156,7 @@ func _physics_process(delta):
 	sprite_try_run()
 	sprite_handle_jumping()
 	
+	# Helper to flip sprite when dir changes
 	if velocity.x > 0.01:
 		flip_stuff(-1)
 	elif velocity.x < -0.01:
@@ -179,14 +184,14 @@ func _physics_process(delta):
 		velocity.y -= jump_force
 	elif Input.is_action_pressed(buttons["jump"]) and !is_on_floor():
 		velocity.y -= jump_force_extra
-		if is_duocorn: velocity.y -= jump_force_extra * 0.75
+		if is_duocorn: velocity.y -= jump_force_extra * 0.10
 	
 	if position.y > 220: die()
 	
 	if !is_on_floor():
 		state = STATE.MID_AIR
 
-	if last_state != state:	
+	if last_state != state:
 		audio_gallop.playing = STATE.RUNNING == state
 
 	last_state = state
@@ -200,7 +205,7 @@ func bounce_back_up():
 
 func _on_HurtBox_body_entered(body):
 	if invuln: return
-	$TimerInvuln.start(0.250)
+	$TimerInvuln.start(0.350)
 	invuln = true
 	$AudioOuch.play()
 	if is_duocorn:
